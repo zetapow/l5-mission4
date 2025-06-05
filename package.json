@@ -1,0 +1,19 @@
+{
+   "name": "mission4-insurance-ai",
+   "version": "1.0.0",
+   "description": "",
+   "workspaces": [
+      "frontend",
+      "backend"
+   ],
+   "private": true,
+   "main": "index.js",
+   "scripts": {
+      "start": "npm run start ---workspaces",
+      "install:all": "npm install --workspaces"
+   },
+   "keywords": [],
+   "author": "",
+   "license": "ISC",
+   "type": "commonjs"
+}
