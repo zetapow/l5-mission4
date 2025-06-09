@@ -1,21 +1,27 @@
-import express, { response } from "express";
-import axios from "axios";
+import express from "express";
 import dotenv from "dotenv";
+import { GoogleGenAI } from "@google/genai";
 
 dotenv.config();
-const fetch = global.fetch;
 
-// Environment variables
-const PORT = process.env.PORT || 3000;
-const GEMINI_API_URL =
-   "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+// Import config and variables
+import {
+   PORT,
+   GEMINI_API_KEY,
+   GEMINI_MODEL,
+   systemInstructions,
+} from "./config";
 
 if (!GEMINI_API_KEY) {
    console.error("GEMINI_API_KEY is not set in the environment variables.");
    process.exit(1);
 }
+
+// Initialize express and GoogleGenAI
 const app = express();
+const ai = new GoogleGenAI({
+   apiKey: process.env.GEMINI_API_KEY,
+});
 
 // Middlewares
 app.use(express.json());
@@ -27,22 +33,34 @@ app.get("/", (req, res) => {
 
 app.post("/api/chat", async (req, res) => {
    try {
-      const prompt = req.body.prompt || "say hello";
-      const dataToSend = {
-         contents: [{ parts: [{ text: prompt }] }],
+      // input from user or frontend
+      const userInput = req.body.prompt || "hello";
+
+      const contents = [
+         {
+            role: "user",
+            parts: [{ text: userInput }],
+         },
+      ];
+
+      const config = {
+         responseMimeType: "text/plain",
+         systemInstruction: [{ text: systemInstructions }],
       };
 
-      const response = await axios.post(
-         `${GEMINI_API_URL}?key=${GEMINI_API_KEY}`,
-         dataToSend,
-         {
-            headers: {
-               "Content-Type": "application/json",
-            },
-         }
-      );
+      const response = await ai.models.generateContent({
+         model: GEMINI_MODEL,
+         config,
+         contents,
+      });
 
-      res.json({ geminiResponse: response.data });
+      // Get response from Gemini object
+
+      const reply =
+         response.candidates?.[0]?.content?.parts?.[0]?.text ??
+         "No response from Gemini.";
+
+      res.json({ geminiResponse: reply });
    } catch (error: any) {
       console.error("Error in /api/chat:", error);
       res.status(500).json({ error: error.message || "Internal server error" });
