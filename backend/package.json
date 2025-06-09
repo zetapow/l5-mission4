@@ -1,13 +1,26 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+   "name": "backend",
+   "version": "1.0.0",
+   "description": "Insurance AI backend",
+   "main": "index.js",
+   "scripts": {
+      "dev": "ts-node-dev index.ts",
+      "build": "tsc",
+      "start": "node dist/index.js"
+   },
+   "author": "",
+   "license": "ISC",
+   "type": "commonjs",
+   "dependencies": {
+      "axios": "^1.9.0",
+      "cors": "^2.8.5",
+      "dotenv": "^16.5.0",
+      "express": "^5.1.0"
+   },
+   "devDependencies": {
+      "@types/express": "^5.0.3",
+      "@types/node": "^22.15.30",
+      "ts-node-dev": "^2.0.0",
+      "typescript": "^5.8.3"
+   }
 }
