@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import { GoogleGenAI } from "@google/genai";
-
+import cors from "cors";
 dotenv.config();
 
 // Import config and variables
@@ -25,7 +25,11 @@ const ai = new GoogleGenAI({
 
 // Middlewares
 app.use(express.json());
-
+app.use(
+   cors({
+      origin: "http://localhost:5173", // Allow requests from the frontend
+   })
+);
 // API routes
 app.get("/", (req, res) => {
    res.send("Welcome to the Insurance AI Backend!");
@@ -34,12 +38,12 @@ app.get("/", (req, res) => {
 app.post("/api/chat", async (req, res) => {
    try {
       // input from user or frontend
-      const userInput = req.body.prompt || "hello";
+      // const userInput = req.body.prompt || "hello";
 
-      const contents = [
+      const contents = req.body.contents || [
          {
             role: "user",
-            parts: [{ text: userInput }],
+            parts: [{ text: "Hello" }],
          },
       ];
 

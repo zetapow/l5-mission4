@@ -1,0 +1,54 @@
+main {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   min-height: 100svh;
+   padding: 2rem;
+   max-width: 80vw;
+   margin: 1rem auto;
+}
+.window {
+   border: 1px solid #fff;
+   min-height: 15rem;
+   max-width: 50rem;
+   padding: 1rem;
+   background: #fafbfc;
+   border-radius: 6px;
+   margin-bottom: 1rem;
+   overflow-y: auto;
+}
+.chat-message {
+   margin-bottom: 0.5em;
+}
+.chat-message.user {
+   text-align: right;
+   color: #1877f2;
+}
+.chat-message.model {
+   text-align: left;
+   color: #444;
+}
+.input-area {
+   display: flex;
+   gap: 0.5rem;
+}
+.input-area input[type="text"] {
+   flex: 1;
+   padding: 0.5em;
+   font-size: 1rem;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+   background-color: #fff;
+}
+.error {
+   color: red;
+   font-weight: bold;
+   margin-top: 0.5em;
+   display: flex;
+   align-items: center;
+}
+.error::before {
+   content: "⚠️";
+   margin-right: 0.5em;
+}
