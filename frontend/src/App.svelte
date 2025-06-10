@@ -1,6 +1,11 @@
 <script lang="ts">
+  import SvelteMarkdown from 'svelte-markdown';
   import type { Message } from './geminiFormat';
+  import {onMount} from 'svelte';
+
+
   import { toGeminiFormat } from './geminiFormat';
+ 
 
 let inputElement: HTMLInputElement | null = null;
 let history : Message[] = [];
@@ -8,10 +13,40 @@ let inputText = '';
 let isLoading = false;
 let error: string | null = null;
 
-// Focus the input element when the component is mounted
+// Focus and select the input element when it is enabled
 $: if (!isLoading && inputElement) {
   inputElement.focus();
+  inputElement.select();
 }
+
+// Fetch initial response from the server when the component mounts
+  onMount(async () => {
+    isLoading = true;
+    try {
+      const response = await fetch("http://localhost:4000/api/chat", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [
+            {
+              role: "user",
+              parts: [{ text: "" }] // or a greeting, or leave empty for system prompt only
+            }
+          ]
+        })
+      });
+      const data = await response.json();
+      history = [
+        ...history,
+        { role: 'model', text: data.geminiResponse }
+      ];
+    } catch (e) {
+      error = "Failed to get initial response.";
+    } finally {
+      isLoading = false;
+    }
+  });
+
 
 
 async function sendMessage() {
@@ -66,7 +101,12 @@ function handleEnterKey (event: KeyboardEvent) {
   <div class="window">
     {#each history as message}
       <div class="chat-message {message.role}">
-        <b>{message.role === 'user' ? 'You' : 'Tina'}:</b> {message.text}
+        <b>{message.role === 'user' ? 'You' : 'Tina'}:</b> 
+        {#if message.role === 'model'}
+        <SvelteMarkdown source={message.text}/>
+        {:else}
+          {message.text}
+        {/if}
       </div>
     {/each}
     {#if isLoading}

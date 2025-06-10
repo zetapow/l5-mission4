@@ -17,5 +17,9 @@
     "svelte-preprocess": "^6.0.3",
     "typescript": "~5.8.3",
     "vite": "^6.3.5"
+  },
+  "dependencies": {
+    "marked": "^15.0.12",
+    "svelte-markdown": "^0.4.1"
   }
 }
