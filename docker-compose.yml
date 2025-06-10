@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+   backend:
+      build: ./backend # build backend from Dockerfile
+      ports:
+         - "4000:4000" # port 5000 on computer to port 5000 in container
+      env_file:
+         - ./backend/.env #
+
+      environment:
+         - NODE_ENV=production
+      restart: unless-stopped # restart container unless stopped manually
+   frontend:
+      build: ./frontend
+      ports:
+         - "5173:80"
+      depends_on:
+         - backend
+      restart: unless-stopped
+# Dockerfile: Instructions for building a container image for your app.
+# docker-compose.yml: Tells Docker how to run multiple containers together (your backend and frontend).
+# build: Where to find the Dockerfile for each service.
+# ports: How to access your app from your computer.
+# env_file/environment: Pass environment variables (like API keys) into your app.
+# depends_on: Makes sure the backend starts before the frontend.
+# restart: Automatically restart containers if they crash.

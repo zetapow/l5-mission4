@@ -7,7 +7,7 @@
       "backend"
    ],
    "private": true,
-   "main": "index.js",
+   "main": "index.ts",
    "scripts": {
       "start": "npm run start ---workspaces",
       "install:all": "npm install --workspaces"

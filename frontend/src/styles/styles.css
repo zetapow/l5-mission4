@@ -1,0 +1,112 @@
+:root {
+   /* --background: #fafbfc;
+   --foreground: #242424;
+   --window-bg: #fafbfc;
+   --window-border: #fff;
+   --input-bg: #fff;
+   --input-color: #444;
+   --button-bg: #1877f2;
+   --button-color: #fff; */
+   --background: #242424;
+   --foreground: #fafbfc;
+   --window-bg: #23272f;
+   --window-border: #444;
+   --input-bg: #23272f;
+   --input-color: #fafbfc;
+   --button-bg: #1877f2;
+   --button-color: #fff;
+}
+
+/* [data-theme="dark"] {
+   --background: #242424;
+   --foreground: #fafbfc;
+   --window-bg: #23272f;
+   --window-border: #444;
+   --input-bg: #23272f;
+   --input-color: #fafbfc;
+   --button-bg: #1877f2;
+   --button-color: #fff;
+} */
+
+html,
+body {
+   height: 100%;
+   background: var(--background);
+   color: var(--foreground);
+}
+
+main {
+   background: var(--background);
+   color: var(--foreground);
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   min-height: 100svh;
+   padding: 2rem;
+   max-width: 80vw;
+   margin: 1rem auto;
+}
+.window {
+   background: var(--window-bg);
+   border: 1px solid var(--window-border);
+   min-height: 15rem;
+   max-height: 40vh;
+   width: 100%;
+   min-width: 20rem;
+   max-width: 50rem;
+   padding: 1rem;
+   border-radius: 6px;
+   margin-bottom: 1rem;
+   overflow-y: auto;
+}
+.chat-message {
+   margin-bottom: 0.5em;
+}
+.chat-message.user {
+   text-align: right;
+   color: var(--button-bg);
+}
+.chat-message.model {
+   text-align: left;
+   color: var(--input-color);
+}
+.input-area {
+   display: flex;
+   width: 30%;
+   max-width: 50rem;
+   gap: 0.5rem;
+}
+.input-area input[type="text"] {
+   background-color: var(--input-bg);
+   color: var(--input-color);
+
+   flex: 1;
+   padding: 0.5em;
+   font-size: 1rem;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+}
+
+.input-area button {
+   background-color: var(--button-bg);
+   color: var(--button-color);
+   padding: 0.5em 1em;
+   font-size: 1rem;
+   border: none;
+   border-radius: 4px;
+   cursor: pointer;
+   transition: background-color 0.3s ease;
+}
+
+.error {
+   color: red;
+   font-weight: bold;
+   margin-top: 0.5em;
+   display: flex;
+   align-items: center;
+}
+.error::before {
+   content: "⚠️";
+   margin-right: 0.5em;
+}
