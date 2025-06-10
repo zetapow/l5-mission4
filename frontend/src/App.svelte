@@ -13,6 +13,11 @@ let inputText = '';
 let isLoading = false;
 let error: string | null = null;
 
+const apiUrl =
+  window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+    ? "http://localhost:4000/api/chat"
+    : "http://backend:4000/api/chat"; // for container-to-container
+
 // Focus and select the input element when it is enabled
 $: if (!isLoading && inputElement) {
   inputElement.focus();
@@ -23,7 +28,11 @@ $: if (!isLoading && inputElement) {
   onMount(async () => {
     isLoading = true;
     try {
-      const response = await fetch("http://localhost:4000/api/chat", {
+      //dev
+      // const response = await fetch("http://localhost:4000/api/chat", {
+        // docker
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -60,8 +69,11 @@ async function sendMessage() {
 
 
   try {
-    const response = await fetch("http://localhost:4000/api/chat", {
-      method: 'POST',
+    //dev
+    // const response = await fetch("http://localhost:4000/api/chat", {
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+
       headers: {
         'Content-Type': 'application/json'
       },
