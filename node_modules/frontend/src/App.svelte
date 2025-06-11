@@ -2,12 +2,11 @@
   import SvelteMarkdown from 'svelte-markdown';
   import type { Message } from './geminiFormat';
   import {onMount} from 'svelte';
-
-
   import { toGeminiFormat } from './geminiFormat';
  
 
 let inputElement: HTMLInputElement | null = null;
+let windowElement: HTMLDivElement | null = null;
 let history : Message[] = [];
 let inputText = '';
 let isLoading = false;
@@ -24,12 +23,15 @@ $: if (!isLoading && inputElement) {
   inputElement.select();
 }
 
+$: if (windowElement && history.length){
+  // Scroll to the bottom of the chat window when new messages are added
+  windowElement.scrollTop = windowElement.scrollHeight; 
+}
+
 // Fetch initial response from the server when the component mounts
   onMount(async () => {
     isLoading = true;
     try {
-      //dev
-      // const response = await fetch("http://localhost:4000/api/chat", {
         // docker
       
       const response = await fetch(apiUrl, {
@@ -110,7 +112,10 @@ function handleEnterKey (event: KeyboardEvent) {
 
 <main>
   <h1> Turners Insurance Chat</h1>
-  <div class="window">
+  <div class="window" bind:this={windowElement}>
+    {#if history.length === 0}
+      <div class="chat-message model"><b>Tina:</b> <em>Welcome! How can I assist you today?</em></div>
+    {/if}
     {#each history as message}
       <div class="chat-message {message.role}">
         <b>{message.role === 'user' ? 'You' : 'Tina'}:</b> 
