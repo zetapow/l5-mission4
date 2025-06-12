@@ -3,7 +3,7 @@ services:
    backend:
       build: ./backend # build backend from Dockerfile
       ports:
-         - "4000:4000" # port 5000 on computer to port 5000 in container
+         - "4000:4000" # port 4000 on computer to port 4000 in container
       env_file:
          - ./backend/.env #
 
